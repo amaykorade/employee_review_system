@@ -23,6 +23,22 @@ server.use(cookieParser());
 // parse form data
 server.use(express.urlencoded({ extended: true }));
 
+// CORS
+server.use((req, res, next) => {
+    res.header(
+        'Access-Control-Allow-Origin',
+        'http://localhost:3001'
+    );
+    res.header('Access-Control-Allow-Headers', '*');
+    res.header('Access-Control-Allow-Methods', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    // return ok for preflight request.
+    if (req.method == 'OPTIONS') {
+        return res.sendStatus(200);
+    }
+    next();
+})
+
 // config sessions
 server.use(session({
     secret: 'SecretKey',
